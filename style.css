@@ -1,0 +1,411 @@
+:root {
+      --azul-esc:  #051825;
+      --ciano:     #1ab3c8;
+      --ciano-clr: #5dd8e8;
+      --verde-viv: #2ec26a;
+      --dourado:   #d4a22a;
+      --dourado-c: #f2c84e;
+      --branco:    #f8fffe;
+      --txt:       #cce8f0;
+      --txt-fraco: #6aabbf;
+    }
+ 
+    /* LINGUAGEM: CSS — Reset global */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+ 
+    /* LINGUAGEM: CSS — Corpo da página */
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--azul-esc);
+      color: var(--txt);
+      overflow: hidden;
+      height: 100vh; width: 100vw;
+    }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — SISTEMA DE SLIDES                          */
+    /* ============================================================ */
+ 
+    /* LINGUAGEM: CSS — Wrapper de todos os slides */
+    #slides { width:100%; height:100vh; position:relative; }
+ 
+    /* LINGUAGEM: CSS — Slide padrão: invisível */
+    .slide {
+      position: absolute; inset: 0;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.85s ease, transform 0.85s ease;
+      transform: translateY(18px);
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+    }
+ 
+    /* LINGUAGEM: CSS — Slide ativo: visível */
+    .slide.on { opacity:1; pointer-events:all; transform:translateY(0); }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — BARRA DE PROGRESSO TOPO                    */
+    /* ============================================================ */
+    #prog {
+      position:fixed; top:0; left:0; height:3px;
+      background: linear-gradient(90deg, var(--ciano), var(--verde-viv), var(--dourado));
+      z-index:500; transition:width 0.7s ease;
+    }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — NAVEGAÇÃO INFERIOR                         */
+    /* ============================================================ */
+    #nav {
+      position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
+      display:flex; align-items:center; gap:12px;
+      background:rgba(5,24,37,0.78); backdrop-filter:blur(16px);
+      border:1px solid rgba(26,179,200,0.22);
+      border-radius:50px; padding:9px 22px; z-index:400;
+    }
+    .nb {
+      width:36px; height:36px; border-radius:50%;
+      border:2px solid rgba(26,179,200,0.35);
+      background:transparent; color:var(--ciano);
+      font-size:0.9rem; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:all 0.3s;
+    }
+    .nb:hover { background:var(--ciano); color:var(--azul-esc); border-color:var(--ciano); }
+    .nb:disabled { opacity:0.2; cursor:not-allowed; }
+    .dots { display:flex; gap:6px; align-items:center; }
+    .dot {
+      width:7px; height:7px; border-radius:50%;
+      background:rgba(26,179,200,0.25); cursor:pointer; transition:all 0.35s;
+    }
+    .dot.on { background:var(--ciano); width:22px; border-radius:4px; }
+    .cnt { font-size:0.7rem; color:var(--txt-fraco); letter-spacing:2px; }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — TOAST DE CONFIRMAÇÃO                       */
+    /* ============================================================ */
+    #toast {
+      position:fixed; top:20px; right:20px;
+      background:linear-gradient(135deg, var(--ciano), #0d8fa0);
+      color:var(--azul-esc); padding:12px 24px; border-radius:12px;
+      font-weight:700; font-size:0.84rem; z-index:999;
+      transform:translateX(230%);
+      transition:transform 0.45s cubic-bezier(.175,.885,.32,1.275);
+      box-shadow:0 8px 28px rgba(26,179,200,0.4);
+    }
+    #toast.on { transform:translateX(0); }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — SLIDE 1: CAPA                              */
+    /* ============================================================ */
+    #s1 { overflow:hidden; text-align:center; background:#051825; }
+ 
+    /* LINGUAGEM: CSS — Imagem de fundo da capa com overlay */
+    #s1 .bg {
+      position:absolute; inset:0;
+      background:
+        linear-gradient(to bottom, rgba(5,24,37,0.2) 0%, rgba(5,24,37,0.55) 45%, rgba(5,24,37,1) 100%),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Wikimania_2017_by_Ovedc_-_Wikimania_2017_post-conference_-_Montreal_Biodome_-_02.jpg/1200px-Wikimania_2017_by_Ovedc_-_Wikimania_2017_post-conference_-_Montreal_Biodome_-_02.jpg')
+        center/cover no-repeat;
+      animation: zoom-bg 18s ease-in-out infinite alternate;
+    }
+    @keyframes zoom-bg { from{transform:scale(1.02);} to{transform:scale(1.08);} }
+ 
+    /* LINGUAGEM: CSS — Conteúdo sobreposto ao fundo da capa */
+    #s1 .cc {
+      position:relative; z-index:2;
+      display:flex; flex-direction:column; align-items:center;
+    }
+    .flag-icon {
+      font-size:2.2rem; margin-bottom:12px;
+      animation: bob 3s ease-in-out infinite;
+      filter:drop-shadow(0 0 12px rgba(200,50,50,0.5));
+    }
+    @keyframes bob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
+    .c-label { font-size:0.7rem; letter-spacing:7px; text-transform:uppercase; color:var(--ciano-clr); margin-bottom:16px; }
+    .c-title {
+      font-family:'Libre Baskerville',serif;
+      font-size:clamp(2.8rem,7vw,5.5rem); font-weight:700;
+      color:var(--branco); line-height:1.05;
+      text-shadow:0 6px 40px rgba(0,0,0,0.5); margin-bottom:10px;
+    }
+    .c-title em { font-style:italic; color:var(--ciano-clr); }
+    .linha-d { width:90px; height:2px; background:linear-gradient(90deg,transparent,var(--dourado),transparent); margin:16px auto; }
+    .c-sub {
+      font-family:'Cormorant Garamond',serif; font-style:italic;
+      font-size:clamp(1rem,2vw,1.3rem); color:rgba(255,255,255,0.75);
+      max-width:560px; line-height:1.7; margin-bottom:32px;
+    }
+    .btn-i {
+      padding:14px 50px; border:2px solid var(--ciano); background:transparent;
+      color:var(--ciano); font-family:'DM Sans',sans-serif; font-size:0.9rem;
+      font-weight:600; letter-spacing:4px; text-transform:uppercase;
+      cursor:pointer; border-radius:60px; transition:all 0.4s;
+      position:relative; overflow:hidden; z-index:1;
+    }
+    .btn-i::before {
+      content:''; position:absolute; inset:0; background:var(--ciano);
+      transform:scaleX(0); transform-origin:left; transition:transform 0.4s; z-index:-1;
+    }
+    .btn-i:hover::before { transform:scaleX(1); }
+    .btn-i:hover { color:var(--azul-esc); }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — SLIDES DE CONTEÚDO (layout com 2 colunas)  */
+    /* ============================================================ */
+    .sc {
+      background:linear-gradient(140deg,#051d2e 0%,#082a3f 60%,#03111e 100%);
+      padding:44px 60px; align-items:flex-start; text-align:left;
+    }
+    .sc::after {
+      content:''; position:absolute; left:0; top:0; width:4px; height:100%;
+      background:linear-gradient(180deg,var(--ciano),var(--verde-viv),var(--dourado));
+    }
+    .g2 { display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:center; width:100%; max-width:1060px; }
+    .ct { display:flex; flex-direction:column; }
+    .s-cat { font-size:0.68rem; letter-spacing:6px; color:var(--ciano); text-transform:uppercase; margin-bottom:10px; }
+    .s-title { font-family:'Libre Baskerville',serif; font-size:clamp(1.6rem,3.5vw,2.6rem); font-weight:700; color:var(--branco); line-height:1.2; margin-bottom:8px; }
+    .s-title em { font-style:italic; color:var(--ciano-clr); }
+    .s-ln { width:50px; height:3px; background:var(--dourado); border-radius:2px; margin-bottom:22px; }
+    .s-p { font-size:clamp(0.84rem,1.5vw,0.98rem); line-height:1.9; color:var(--txt); margin-bottom:14px; }
+    .s-p strong { color:var(--branco); }
+    .s-p em { color:var(--ciano-clr); font-style:normal; }
+    .tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; }
+    .tag { padding:5px 14px; border-radius:20px; font-size:0.7rem; font-weight:600; letter-spacing:1.5px; border:1px solid rgba(26,179,200,0.3); color:var(--ciano-clr); background:rgba(26,179,200,0.07); }
+ 
+    /* LINGUAGEM: CSS — Coluna da imagem nos slides de conteúdo */
+    .ci { position:relative; }
+    .sfoto {
+      width:100%; height:320px; object-fit:cover; border-radius:14px; display:block;
+      box-shadow:0 20px 60px rgba(0,0,0,0.55); filter:brightness(0.92) saturate(1.1);
+      transition:filter 0.4s;
+    }
+    .sfoto:hover { filter:brightness(1) saturate(1.2); }
+    .scap {
+      position:absolute; bottom:12px; left:12px; right:12px;
+      background:rgba(5,24,37,0.85); backdrop-filter:blur(8px);
+      padding:8px 14px; border-radius:8px;
+      font-size:0.74rem; color:var(--ciano-clr); border-left:3px solid var(--ciano);
+    }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — SLIDE 3: GRADE DOS 5 ECOSSISTEMAS          */
+    /* ============================================================ */
+    #s3 {
+      background:linear-gradient(140deg,#051d2e 0%,#082a3f 60%,#03111e 100%);
+      padding:36px 60px; align-items:center;
+    }
+    #s3::after { content:''; position:absolute; left:0; top:0; width:4px; height:100%; background:linear-gradient(180deg,var(--ciano),var(--verde-viv),var(--dourado)); }
+    .eco-h { text-align:center; margin-bottom:20px; }
+    .eco-g { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; width:100%; max-width:1060px; }
+    .ecard { position:relative; border-radius:12px; overflow:hidden; height:280px; cursor:pointer; transition:transform 0.4s, box-shadow 0.4s; }
+    .ecard:hover { transform:translateY(-6px) scale(1.02); box-shadow:0 22px 50px rgba(0,0,0,0.6); }
+    .ecard img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s; }
+    .ecard:hover img { transform:scale(1.07); }
+    .eov { position:absolute; inset:0; background:linear-gradient(to top, rgba(5,24,37,0.95) 0%, rgba(5,24,37,0.35) 55%, transparent 100%); }
+    .einfo { position:absolute; bottom:0; left:0; right:0; padding:14px 12px; }
+    .enome { font-family:'Libre Baskerville',serif; font-size:0.87rem; color:var(--branco); font-weight:700; display:block; margin-bottom:4px; line-height:1.3; }
+    .edesc { font-size:0.7rem; color:var(--txt); line-height:1.4; display:block; }
+    .etemp { display:inline-block; margin-top:6px; padding:2px 9px; border-radius:12px; font-size:0.63rem; font-weight:700; background:rgba(26,179,200,0.2); color:var(--ciano-clr); border:1px solid rgba(26,179,200,0.35); }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — SLIDE 5: GRADE DE DADOS NUMÉRICOS          */
+    /* ============================================================ */
+    .dg { display:grid; grid-template-columns:repeat(3,1fr); gap:13px; width:100%; max-width:1060px; }
+    .dcard { background:rgba(26,179,200,0.06); border:1px solid rgba(26,179,200,0.17); border-radius:13px; padding:20px 18px; transition:all 0.35s; }
+    .dcard:hover { background:rgba(26,179,200,0.12); border-color:var(--ciano); transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,0.4); }
+    .di { font-size:1.9rem; margin-bottom:9px; }
+    .dl { font-size:0.66rem; letter-spacing:3px; color:var(--ciano); text-transform:uppercase; margin-bottom:5px; }
+    .dv { font-family:'Libre Baskerville',serif; font-size:1.3rem; color:var(--branco); font-weight:700; line-height:1.2; }
+    .dd { font-size:0.76rem; color:var(--txt-fraco); margin-top:4px; line-height:1.5; }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — SLIDE 7: GRADE DE ATRAÇÕES                 */
+    /* ============================================================ */
+    #s7 { background:linear-gradient(140deg,#051d2e 0%,#082a3f 60%,#03111e 100%); padding:34px 60px; align-items:center; overflow-y:auto; }
+    #s7::after { content:''; position:absolute; left:0; top:0; width:4px; height:100%; background:linear-gradient(180deg,var(--ciano),var(--verde-viv),var(--dourado)); }
+    .ag { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; width:100%; max-width:1060px; }
+    .acard { background:rgba(255,255,255,0.03); border:1px solid rgba(26,179,200,0.14); border-radius:14px; overflow:hidden; transition:all 0.35s; }
+    .acard:hover { border-color:var(--ciano); transform:translateY(-5px); box-shadow:0 16px 40px rgba(0,0,0,0.45); }
+    .afw { overflow:hidden; height:140px; }
+    .afoto { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s; }
+    .acard:hover .afoto { transform:scale(1.07); }
+    .ab { padding:14px 15px; }
+    .atag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.62rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:7px; }
+    .ta { background:rgba(46,194,106,0.18); color:var(--verde-viv); }
+    .tb { background:rgba(26,179,200,0.18); color:var(--ciano-clr); }
+    .tc { background:rgba(212,162,42,0.2);  color:var(--dourado-c); }
+    .td { background:rgba(160,80,200,0.2);  color:#c488f0; }
+    .anome { font-family:'Libre Baskerville',serif; font-size:0.95rem; color:var(--branco); margin-bottom:5px; line-height:1.3; }
+    .adesc { font-size:0.74rem; color:var(--txt-fraco); line-height:1.6; }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — SLIDE 8: AVALIAÇÕES DOS VISITANTES         */
+    /* ============================================================ */
+    #s8 {
+      background:linear-gradient(140deg,#051d2e 0%,#082a3f 60%,#03111e 100%);
+      padding:44px 60px; align-items:center; overflow-y:auto;
+    }
+    #s8::after { content:''; position:absolute; left:0; top:0; width:4px; height:100%; background:linear-gradient(180deg,var(--ciano),var(--verde-viv),var(--dourado)); }
+ 
+    /* LINGUAGEM: CSS — Cabeçalho do slide de avaliações */
+    .av-header { text-align:center; margin-bottom:24px; width:100%; max-width:1060px; }
+ 
+    /* LINGUAGEM: CSS — Nota geral destacada */
+    .av-nota-geral {
+      display:inline-flex; align-items:center; gap:14px;
+      background:rgba(26,179,200,0.1); border:1px solid rgba(26,179,200,0.25);
+      border-radius:14px; padding:14px 28px; margin-bottom:20px;
+    }
+    .av-nota-num { font-family:'Libre Baskerville',serif; font-size:3rem; font-weight:700; color:var(--dourado-c); line-height:1; }
+    .av-nota-info .av-estrelas { color:#f4c430; font-size:1.1rem; letter-spacing:2px; }
+    .av-nota-info .av-base { font-size:0.74rem; color:var(--txt-fraco); margin-top:2px; }
+    .av-nota-info .av-fonte { font-size:0.68rem; color:var(--txt-fraco); }
+ 
+    /* LINGUAGEM: CSS — Grade de cards de avaliação */
+    .av-grade {
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:14px; width:100%; max-width:1060px;
+    }
+ 
+    /* LINGUAGEM: CSS — Card individual de avaliação */
+    .av-card {
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(26,179,200,0.15);
+      border-radius:14px; padding:18px 20px;
+      transition:all 0.35s; position:relative;
+    }
+    .av-card:hover { background:rgba(26,179,200,0.08); border-color:var(--ciano); transform:translateY(-4px); box-shadow:0 12px 32px rgba(0,0,0,0.4); }
+ 
+    /* LINGUAGEM: CSS — Aspas decorativas no card */
+    .av-card::before {
+      content:'"'; font-family:'Libre Baskerville',serif; font-size:4rem;
+      color:rgba(26,179,200,0.15); position:absolute; top:6px; left:14px; line-height:1;
+    }
+ 
+    /* LINGUAGEM: CSS — Cabeçalho do card: avatar, nome e estrelas */
+    .av-head { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+    .av-avatar {
+      width:42px; height:42px; border-radius:50%;
+      background:linear-gradient(135deg, var(--ciano), var(--verde-viv));
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.1rem; font-weight:700; color:var(--azul-esc); flex-shrink:0;
+    }
+    .av-nome { font-size:0.88rem; font-weight:600; color:var(--branco); display:block; }
+    .av-loc  { font-size:0.72rem; color:var(--txt-fraco); }
+    .av-stars { color:#f4c430; font-size:0.85rem; margin-bottom:10px; letter-spacing:1px; }
+    .av-texto { font-size:0.8rem; color:var(--txt); line-height:1.7; font-style:italic; }
+    .av-data  { font-size:0.68rem; color:var(--txt-fraco); margin-top:10px; }
+ 
+    /* LINGUAGEM: CSS — Tag da plataforma de avaliação */
+    .av-plat {
+      display:inline-block; padding:2px 10px; border-radius:20px;
+      font-size:0.62rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+      background:rgba(255,255,255,0.07); color:var(--txt-fraco); margin-top:8px;
+    }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — SLIDE 9: CONVITE FINAL (CENTRALIZADO)      */
+    /* ============================================================ */
+    #s9 {
+      background:
+        linear-gradient(160deg,rgba(5,24,37,0.96) 0%,rgba(8,42,63,0.98) 100%),
+        url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/I_am_very_glad_to_live_under_the_cupola_of_the_Biodome_in_Montreal%2C_Qu%C3%A9bec%2C_Canada_-_panoramio.jpg/800px-I_am_very_glad_to_live_under_the_cupola_of_the_Biodome_in_Montreal%2C_Qu%C3%A9bec%2C_Canada_-_panoramio.jpg')
+        center/cover no-repeat;
+      overflow-y: auto;
+      /* LINGUAGEM: CSS — Alinhamento central do convite final */
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+ 
+    /* LINGUAGEM: CSS — Wrapper centralizado do convite */
+    .cw {
+      width:100%; max-width:1060px;
+      padding:28px 40px 36px;
+      /* LINGUAGEM: CSS — Garante centralização vertical do conteúdo */
+      margin: auto;
+    }
+ 
+    /* LINGUAGEM: CSS — Banner principal do convite */
+    .cb {
+      background:linear-gradient(135deg,rgba(26,179,200,0.12) 0%,rgba(46,194,106,0.08) 100%);
+      border:1px solid rgba(26,179,200,0.3);
+      border-radius:18px; padding:26px 32px; text-align:center;
+      margin-bottom:20px; position:relative; overflow:hidden;
+    }
+    .cb::before {
+      content:''; position:absolute; top:-60px; right:-60px;
+      width:240px; height:240px; border-radius:50%;
+      background:radial-gradient(circle,rgba(26,179,200,0.08) 0%,transparent 70%);
+    }
+    .cbadge { display:inline-flex; align-items:center; gap:8px; padding:5px 20px; border:1px solid var(--dourado); border-radius:30px; color:var(--dourado-c); font-size:0.67rem; letter-spacing:5px; text-transform:uppercase; margin-bottom:12px; }
+    .ctit { font-family:'Libre Baskerville',serif; font-size:clamp(1.4rem,3vw,2.2rem); font-weight:700; color:var(--branco); line-height:1.2; margin-bottom:10px; }
+    .ctit em { font-style:italic; color:var(--ciano-clr); }
+    .cbv { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(0.93rem,1.7vw,1.1rem); color:rgba(200,235,245,0.8); max-width:640px; margin:0 auto 14px; line-height:1.75; }
+    .cchips { display:flex; justify-content:center; flex-wrap:wrap; gap:8px; }
+    .cchip { display:flex; align-items:center; gap:5px; padding:5px 13px; background:rgba(26,179,200,0.1); border:1px solid rgba(26,179,200,0.25); border-radius:30px; font-size:0.74rem; color:var(--ciano-clr); }
+ 
+    /* LINGUAGEM: CSS — Grade de eventos do convite */
+    .eg { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
+    .evcard { background:rgba(255,255,255,0.03); border:1px solid rgba(26,179,200,0.13); border-radius:14px; overflow:hidden; transition:all 0.35s; display:flex; flex-direction:column; }
+    .evcard:hover { border-color:var(--ciano); background:rgba(26,179,200,0.07); transform:translateY(-5px); box-shadow:0 14px 38px rgba(0,0,0,0.45); }
+    .efw { overflow:hidden; height:100px; flex-shrink:0; }
+    .efoto { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s; }
+    .evcard:hover .efoto { transform:scale(1.06); }
+    .evb { padding:12px 14px; display:flex; flex-direction:column; flex:1; }
+    .etag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.61rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; align-self:flex-start; }
+    .et1 { background:rgba(46,194,106,0.18); color:var(--verde-viv); }
+    .et2 { background:rgba(26,179,200,0.18); color:var(--ciano-clr); }
+    .et3 { background:rgba(212,162,42,0.2);  color:var(--dourado-c); }
+    .et4 { background:rgba(100,80,200,0.2);  color:#b0a0f5; }
+    .et5 { background:rgba(200,60,100,0.2);  color:#f590b0; }
+    .evnome { font-family:'Libre Baskerville',serif; font-size:0.9rem; color:var(--branco); margin-bottom:5px; line-height:1.3; }
+    .evdesc { font-size:0.71rem; color:var(--txt-fraco); line-height:1.6; flex:1; margin-bottom:9px; }
+    .evm { border-top:1px solid rgba(255,255,255,0.06); padding-top:8px; display:flex; flex-direction:column; gap:3px; }
+    .evr { display:flex; justify-content:space-between; font-size:0.69rem; color:#6aabbf; }
+    .evp { color:var(--dourado-c); font-weight:700; font-size:0.75rem; }
+    .bres { margin-top:8px; width:100%; padding:8px; border:1px solid rgba(26,179,200,0.38); background:transparent; color:var(--ciano); font-family:'DM Sans',sans-serif; font-size:0.68rem; letter-spacing:2px; text-transform:uppercase; font-weight:600; cursor:pointer; border-radius:8px; transition:all 0.3s; }
+    .bres:hover { background:var(--ciano); color:var(--azul-esc); border-color:var(--ciano); }
+ 
+    /* LINGUAGEM: CSS — Rodapé do convite */
+    .cfoot { background:linear-gradient(135deg,rgba(26,179,200,0.1) 0%,rgba(5,24,37,0.8) 100%); border:1px solid rgba(26,179,200,0.22); border-radius:16px; padding:20px 28px; display:grid; grid-template-columns:1fr auto; align-items:center; gap:20px; }
+    .cfcta h3 { font-family:'Libre Baskerville',serif; font-size:1.18rem; color:var(--branco); margin-bottom:4px; }
+    .cfcta p  { font-size:0.77rem; color:var(--txt-fraco); line-height:1.7; }
+    .cfcta strong { color:var(--ciano-clr); }
+    .cfinfo { text-align:right; font-size:0.76rem; color:#6aabbf; line-height:2.1; }
+    .cfinfo strong { color:var(--branco); }
+    .bvis { display:block; margin:12px auto 0; padding:12px 38px; background:linear-gradient(135deg,var(--ciano),var(--verde-viv)); border:none; border-radius:50px; color:var(--azul-esc); font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; cursor:pointer; transition:all 0.4s; box-shadow:0 6px 22px rgba(26,179,200,0.3); }
+    .bvis:hover { transform:translateY(-3px); box-shadow:0 12px 34px rgba(26,179,200,0.45); }
+ 
+    /* LINGUAGEM: CSS — Scrollbar estilizado para slides com scroll */
+    #s8::-webkit-scrollbar, #s9::-webkit-scrollbar { width:4px; }
+    #s8::-webkit-scrollbar-thumb, #s9::-webkit-scrollbar-thumb { background:var(--ciano); border-radius:2px; }
+    #s8::-webkit-scrollbar-track, #s9::-webkit-scrollbar-track { background:transparent; }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — ANIMAÇÕES DE ENTRADA                       */
+    /* ============================================================ */
+    @keyframes entrar { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+    .slide.on .ct > *, .slide.on .cc > *, .slide.on .eco-h > *, .slide.on .av-header > * {
+      animation:entrar 0.6s ease forwards; opacity:0;
+    }
+    .slide.on .ct > *:nth-child(1), .slide.on .cc > *:nth-child(1), .slide.on .eco-h > *:nth-child(1), .slide.on .av-header > *:nth-child(1) { animation-delay:0.05s; }
+    .slide.on .ct > *:nth-child(2), .slide.on .cc > *:nth-child(2), .slide.on .eco-h > *:nth-child(2), .slide.on .av-header > *:nth-child(2) { animation-delay:0.15s; }
+    .slide.on .ct > *:nth-child(3), .slide.on .cc > *:nth-child(3), .slide.on .eco-h > *:nth-child(3), .slide.on .av-header > *:nth-child(3) { animation-delay:0.25s; }
+    .slide.on .ct > *:nth-child(4), .slide.on .cc > *:nth-child(4) { animation-delay:0.35s; }
+    .slide.on .ct > *:nth-child(5), .slide.on .cc > *:nth-child(5) { animation-delay:0.45s; }
+ 
+    /* ============================================================ */
+    /* LINGUAGEM: CSS — RESPONSIVIDADE                             */
+    /* ============================================================ */
+    @media(max-width:860px){
+      .sc, #s3, #s7, #s8 { padding:22px 18px; }
+      .g2 { grid-template-columns:1fr; gap:18px; }
+      .ci { display:none; }
+      .eco-g { grid-template-columns:repeat(2,1fr); }
+      .ecard { height:200px; }
+      .dg { grid-template-columns:repeat(2,1fr); }
+      .ag, .eg, .av-grade { grid-template-columns:1fr 1fr; }
+      .cw { padding:18px; }
+      .cfoot { grid-template-columns:1fr; text-align:center; }
+      .cfinfo { text-align:center; }
+    }
